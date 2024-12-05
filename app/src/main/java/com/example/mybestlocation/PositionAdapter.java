@@ -17,6 +17,8 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.google.android.material.button.MaterialButton;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -35,6 +37,7 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.ViewHo
 
     @NonNull
     @Override
+    //cree un view pour chaque element de la liste de postions
     public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(context).inflate(R.layout.pos_item, parent, false);
         return new ViewHolder(view);
@@ -42,7 +45,9 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
+//        Lier les données de chaque position à son interface graphique.
         Position currentPosition = positions.get(position);
+
 
         holder.tvPositionName.setText(currentPosition.getPseudo());
         holder.tvCoordinates.setText("Lat: " + currentPosition.getLatitude() + ", Long: " + currentPosition.getLongitude());
@@ -55,18 +60,28 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.ViewHo
 
         // Update Button
         holder.btnUpdate.setOnClickListener(v -> {
-            // Placeholder for update functionality
+
             Toast.makeText(context, "Update feature not implemented yet", Toast.LENGTH_SHORT).show();
         });
 
-        // Send SMS Button
         holder.btnSendSMS.setOnClickListener(v -> {
-            SmsManager smsManager = SmsManager.getDefault();
-            smsManager.sendTextMessage(currentPosition.getNumero(), null, "Send me your location.", null, null);
-            Toast.makeText(context, "SMS Sent", Toast.LENGTH_SHORT).show();
+            String phoneNumber ="+1555"+  currentPosition.getNumero(); // Utiliser getNumero() pour récupérer le numéro de téléphone
+            String message = "Position: Latitude: " + currentPosition.getLatitude() +
+                    ", Longitude: " + currentPosition.getLongitude();
+
+            if (phoneNumber != null && !phoneNumber.isEmpty()) {
+                try {
+                    SmsManager smsManager = SmsManager.getDefault();
+                    smsManager.sendTextMessage(phoneNumber, null, message, null, null);
+                    Toast.makeText(context, "SMS envoyé à " + phoneNumber, Toast.LENGTH_SHORT).show();
+                } catch (Exception e) {
+                    Toast.makeText(context, "Erreur lors de l'envoi du SMS : " + e.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            } else {
+                Toast.makeText(context, "Numéro de téléphone invalide", Toast.LENGTH_SHORT).show();
+            }
         });
 
-        // Open Map Button
         holder.btnOpenMap.setOnClickListener(v -> {
             String geoUri = "geo:" + currentPosition.getLatitude() + "," + currentPosition.getLongitude();
             Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse(geoUri));
@@ -82,10 +97,14 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.ViewHo
 
     public static class ViewHolder extends RecyclerView.ViewHolder {
         TextView tvPositionName, tvCoordinates;
-        ImageView btnDelete, btnUpdate, btnSendSMS, btnOpenMap;
+        Button btnDelete;
+        Button btnUpdate;
+        Button btnSendSMS;
+        Button btnOpenMap;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
+            // Récupération des TextViews
             tvPositionName = itemView.findViewById(R.id.tvPositionName);
             tvCoordinates = itemView.findViewById(R.id.tvCoordinates);
             btnDelete = itemView.findViewById(R.id.btnDelete);
@@ -111,11 +130,9 @@ public class PositionAdapter extends RecyclerView.Adapter<PositionAdapter.ViewHo
 
             System.out.println("Position Id: " + positionId);
 
-            // Prepare request parameters
             HashMap<String, String> params = new HashMap<>();
             params.put("idposition", positionId);
 
-            // Make the DELETE request
             HttpHandler httpHandler = new HttpHandler();
             return httpHandler.makePostRequest(deleteUrl, params); // Assuming the server handles deletion via POST
         }

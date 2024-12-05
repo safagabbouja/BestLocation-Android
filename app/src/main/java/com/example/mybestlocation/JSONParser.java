@@ -41,6 +41,8 @@ public class JSONParser {
             // Initialize StringBuilder before use
             result = new StringBuilder();
 
+//            Lit la réponse ligne par ligne et la stocke dans result.
+
             String line;
             while ((line = reader.readLine()) != null) {
                 result.append(line);
@@ -61,6 +63,8 @@ public class JSONParser {
         // Check if result is not empty
         if (result != null && result.length() > 0) {
             try {
+//                Convertit la chaîne de caractères obtenue en un objet JSON.
+
                 jObj = new JSONObject(result.toString());
             } catch (JSONException e) {
                 Log.e("JSON Parser", "Error parsing data: " + e.toString());
@@ -96,6 +100,7 @@ public class JSONParser {
                 i++;
             }
         }
+
         if (method.equals("POST")) {
             // request method is POST
             try {
@@ -115,6 +120,7 @@ public class JSONParser {
                 conn.connect();
 
                 paramsString = sbParams.toString();
+//                Écrit les paramètres dans le flux de sortie.
 
                 wr = new DataOutputStream(conn.getOutputStream());
                 if(params!=null) {
@@ -130,6 +136,8 @@ public class JSONParser {
         else if(method.equals("GET")){
             // request method is GET
 
+
+//            Ajoute les paramètres directement à l’URL.
             if (sbParams.length() != 0) {
                 url += "?" + sbParams.toString();
             }
@@ -138,6 +146,7 @@ public class JSONParser {
                 urlObj = new URL(url);
 
                 conn = (HttpURLConnection) urlObj.openConnection();
+//                Configure la connexion pour envoyer des données (DoOutput = true).
 
                 conn.setDoOutput(false);
 

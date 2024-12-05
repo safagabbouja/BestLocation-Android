@@ -8,9 +8,9 @@
         android:id="@+id/tv_title_map"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:padding="16dp"
+        android:background="#4CAF50"
         android:gravity="center"
-        android:background="#6200EE"
+        android:padding="16dp"
         android:textColor="#FFFFFF"
         android:textSize="18sp"
         android:textStyle="bold" />

@@ -1,11 +1,16 @@
 package com.example.mybestlocation;
 
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -23,9 +28,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-// Log initial
+
+
+        // Vérification de la permission SEND_SMS
+        if (ContextCompat.checkSelfPermission(this, android.Manifest.permission.SEND_SMS)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,
+                    new String[]{android.Manifest.permission.SEND_SMS},
+                    1);
+        }
         Log.d("MainActivity", "onCreate called - Application started");
-        // Initialize HomeFragment
+
+
         homeFragment = new HomeFragment();
 
 
@@ -39,28 +53,22 @@ public class MainActivity extends AppCompatActivity {
             return;
         }
 
-        // Set initial button visibility
         loadFragment(homeFragment);
 
 
-        // Button to show RecyclerView (HomeFragment)
         btnAddPosition.setOnClickListener(v -> {
             MapsFragment mapsFragment = new MapsFragment();
 
-            // Pass title to MapsFragment
             Bundle bundle = new Bundle();
-            bundle.putString("title", "Select a new position to add");
             bundle.putString("mode", "add");
             mapsFragment.setArguments(bundle);
 
             loadFragment(mapsFragment);
         });
 
-        // Button to show MapFragment with locations
         btnOpenMap.setOnClickListener(v -> {
             MapsFragment map = new MapsFragment();
             Bundle bundle = new Bundle();
-            bundle.putString("title", "All Positions");
             bundle.putString("mode", "get");
             map.setArguments(bundle);
             loadFragment(map);
@@ -76,6 +84,19 @@ public class MainActivity extends AppCompatActivity {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        if (requestCode == 1) { // Code correspondant à la demande SEND_SMS
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                Toast.makeText(this, "Permission pour envoyer des SMS accordée", Toast.LENGTH_SHORT).show();
+            } else {
+                Toast.makeText(this, "Permission pour envoyer des SMS refusée", Toast.LENGTH_SHORT).show();
+            }
+        }
+    }
+
+
 
 
 }

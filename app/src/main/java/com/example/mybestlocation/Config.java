@@ -1,11 +1,7 @@
 
 package com.example.mybestlocation;
 
-//public class Config {
-//    public static String ip = ""; // Use 10.0.2.2 for emulator
-//    public static String url_GETALL = "http://" + ip + "";
-//    public static String url_ADD = "http://" + ip + "/add_position.php";
-//}
+
 
 
 public class Config {

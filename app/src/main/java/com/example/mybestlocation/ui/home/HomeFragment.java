@@ -93,7 +93,6 @@ public class HomeFragment extends Fragment {
             if (alert != null && alert.isShowing()) {
                 alert.dismiss();
             }
-            // Notify the adapter to update the RecyclerView
             adapter.notifyDataSetChanged();
         }
     }

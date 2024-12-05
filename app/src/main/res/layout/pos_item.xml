@@ -5,13 +5,6 @@
     android:orientation="horizontal"
     android:padding="8dp">
 
-    <ImageView
-        android:id="@+id/imgIcon"
-        android:layout_width="54dp"
-        android:layout_height="66dp"
-        android:layout_margin="7dp"
-        app:srcCompat="@drawable/baseline_location_on_24" />
-
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -38,38 +31,58 @@
 
         <LinearLayout
             android:id="@+id/buttons"
-            android:layout_width="313dp"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="5dp"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            android:weightSum="4">
 
-            <ImageView
+            <!-- Bouton SMS -->
+            <Button
                 android:id="@+id/btnSendSMS"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/baseline_outgoing_mail_24" />
+                android:text="SMS"
+                android:background="@drawable/rounded_button"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="3dp"
+            android:textSize="12sp" />
 
-            <ImageView
+            <!-- Bouton Update -->
+            <Button
                 android:id="@+id/btnUpdate"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/baseline_edit_24" />
+                android:text="Update"
+                android:background="@drawable/rounded_button"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="8dp"
+            android:textSize="12sp" />
 
-            <ImageView
+            <!-- Bouton Map -->
+            <Button
                 android:id="@+id/btnOpenMap"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/baseline_map_24" />
+                android:text="Map"
+                android:background="@drawable/rounded_button"
+                android:textColor="#FFFFFF"
+                android:layout_marginEnd="8dp"
+            android:textSize="12sp" />
 
-            <ImageView
+            <!-- Bouton Delete -->
+            <Button
                 android:id="@+id/btnDelete"
-                android:layout_width="wrap_content"
+                android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                app:srcCompat="@drawable/baseline_delete_24" />
+                android:text="Delete"
+                android:background="@drawable/rounded_button"
+                android:textColor="#FFFFFF"
+                android:textSize="12sp" />
         </LinearLayout>
 
     </LinearLayout>
